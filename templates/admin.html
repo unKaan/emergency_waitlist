@@ -2,7 +2,7 @@
 
 {% block content %}
 <h2>Admin Panel</h2>
-<form method="post" action="{{ url_for('adm') }}">
+<form method="post" action="{{ url_for('admin') }}">
     <label for="name">Name:</label>
     <input type="text" id="name" name="name" required>
 
@@ -22,6 +22,7 @@
         <th>Name</th>
         <th>Severity</th>
         <th>Wait Time (minutes)</th>
+        <th>Action</th>
     </tr>
     </thead>
     <tbody>
@@ -30,6 +31,11 @@
         <td>{{ patient[1] }}</td>
         <td>{{ patient[2] }}</td>
         <td>{{ patient[3] }}</td>
+        <td>
+            <form method="post" action="{{ url_for('delete_patient', patient_id=patient[0]) }}" style="display:inline;">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
     </tr>
     {% endfor %}
     </tbody>
