@@ -1,29 +1,26 @@
-from flask import Flask, render_template, request, redirect, url_for
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, request, jsonify
+import duckdb
 from models import db, Patient
 
 app = Flask(__name__)
-app.config.from_object('config.Config')
 
-db.init_app(app)
+# I had to streamline some parts with my prior OLAP DB knowledge
+con = duckdb.connect('emergency_waitlist.duckdb')
 
 @app.route('/')
 def index():
-    patients = Patient.query.order_by(Patient.severity.desc(), Patient.wait_time).all()
-    return render_template('index.html', patients=patients)
+    patients = con.execute('SELECT * FROM patients ORDER BY severity DESC, wait_time').fetchall()
+    return jsonify(patients)
 
-@app.route('/admin', methods=['GET', 'POST'])
+@app.route('/admin', methods=['POST'])
 def admin():
-    if request.method == 'POST':
-        name = request.form['name']
-        severity = request.form['severity']
-        wait_time = request.form['wait_time']
-        patient = Patient(name=name, severity=int(severity), wait_time=int(wait_time))
-        db.session.add(patient)
-        db.session.commit()
-        return redirect(url_for('admin'))
-    patients = Patient.query.all()
-    return render_template('admin.html', patients=patients)
+    # addne w
+    name = request.form['name']
+    severity = request.form['severity']
+    wait_time = request.form['wait_time']
+    con.execute('INSERT INTO patients (name, severity, wait_time) VALUES (?, ?, ?)', (name, severity, wait_time))
+    return jsonify({'status': 'success'}), 201
 
 if __name__ == '__main__':
     app.run(debug=True)
+
