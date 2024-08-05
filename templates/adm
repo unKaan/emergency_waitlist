@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Admin Panel</h2>
+<form method="post">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="severity">Severity:</label>
+    <input type="number" id="severity" name="severity" min="1" max="10" required>
+
+    <label for="wait_time">Wait Time (minutes):</label>
+    <input type="number" id="wait_time" name="wait_time" min="0" required>
+
+    <button type="submit">Add Patient</button>
+</form>
+
+<h3>All Patients</h3>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Severity</th>
+        <th>Wait Time (minutes)</th>
+    </tr>
+    {% for patient in patients %}
+    <tr>
+        <td>{{ patient.name }}</td>
+        <td>{{ patient.severity }}</td>
+        <td>{{ patient.wait_time }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
