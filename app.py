@@ -5,7 +5,7 @@ from models import db, Patient
 app = Flask(__name__)
 
 # I had to streamline some parts with my prior OLAP DB knowledge
-con = duckdb.connect('emergency_waitlist.duckdb')
+con = duckdb.connect('emergency_waitlist.db')
 
 @app.route('/')
 def index():

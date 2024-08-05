@@ -2,7 +2,7 @@
 
 {% block content %}
 <h2>Admin Panel</h2>
-<form method="post">
+<form method="post" action="{{ url_for('adm') }}">
     <label for="name">Name:</label>
     <input type="text" id="name" name="name" required>
 
@@ -17,17 +17,21 @@
 
 <h3>All Patients</h3>
 <table>
+    <thead>
     <tr>
         <th>Name</th>
         <th>Severity</th>
         <th>Wait Time (minutes)</th>
     </tr>
+    </thead>
+    <tbody>
     {% for patient in patients %}
     <tr>
-        <td>{{ patient.name }}</td>
-        <td>{{ patient.severity }}</td>
-        <td>{{ patient.wait_time }}</td>
+        <td>{{ patient[1] }}</td>
+        <td>{{ patient[2] }}</td>
+        <td>{{ patient[3] }}</td>
     </tr>
     {% endfor %}
+    </tbody>
 </table>
 {% endblock %}

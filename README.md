@@ -13,8 +13,8 @@ This application helps hospital staff manage the emergency room waitlist by trac
 
 ### Prerequisites
 
-- Python 3.x
-- PostgreSQL
+- Python 3.x (Flask in Particular)
+- DuckDB for Database
 - Git
 
 ### Installation
