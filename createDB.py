@@ -19,11 +19,12 @@ df = pd.read_csv('data/patients.csv')
 
 # Connect to DuckDB
 con = duckdb.connect('emergency_waitlist.duckdb')
-
+con.execute('CREATE SEQUENCE my_sequence START 1 INCREMENT 1;')
 # Create the patients table if it doesn't exist
+
 con.execute('''
 CREATE TABLE IF NOT EXISTS patients (
-    id INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY nextval('my_sequence'),
     name VARCHAR,
     severity INTEGER,
     wait_time INTEGER

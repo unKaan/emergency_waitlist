@@ -1,7 +1,5 @@
 from flask import Flask, request, redirect, url_for
-# had to streamline DB
 import duckdb
-import os
 
 app = Flask(__name__)
 
@@ -10,6 +8,7 @@ def index():
     with duckdb.connect('emergency_waitlist.duckdb') as con:
         patients = con.execute('SELECT * FROM patients ORDER BY severity DESC, wait_time').fetchall()
 
+    # Render the HTML content directly
     html_content = """
     <!DOCTYPE html>
     <html lang="en">
